@@ -2,12 +2,40 @@ const {Post} = require('../models/post')
 const {User} = require('../models/user')
 
 module.exports = {
-    getAllPosts: (req, res) => {
-        console.log('get all posts')
+    getAllPosts: async (req, res) => {
+        try {
+            const posts = await Post.findAll({
+                where: {privateStatus: false},
+                include: [{
+                    model: User,
+                    required: true,
+                    attributes: [`username`]
+                }]
+            })
+            res.sendStatus(200).send(posts)
+        } catch (error) {
+            console.log('ERROR IN getAllPosts')
+            console.log(error)
+            res.sendStatus(400)
+        }
     },
 
-    getCurrentUserPosts: (req, res) => {
-        console.log('current user posts')
+    getCurrentUserPosts: async (req, res) => {
+        try {
+            const posts = await Post.findAll({
+                where: {userId: userId},
+                include: [{
+                    model: User,
+                    required: true,
+                    attributes: [`username`]
+                }]
+            })
+            res.sendStatus(200).send(posts)
+        } catch (error) {
+            console.log('ERROR IN getCurrentUserPosts')
+            console.log(error)
+            res.sendStatus(400)
+        }
     },
 
     addPost: async (req, res) => {
@@ -16,12 +44,25 @@ module.exports = {
             await Post.create({title, content, privateStatus: status, userId})
             res.sendStatus(200)
         } catch (error) {
-            
+            console.log('ERROR IN getCurrentUserPosts')
+            console.log(error)
+            res.sendStatus(400)
         }
     },
 
-    editPost: (req, res) => {
-        console.log('edit post')
+    editPost: async (req, res) => {
+        try {
+            const {id} = req.params 
+            const {status} = req.body 
+            await Post.update({privateStatus: status},
+                {where: {id: +id}
+            })
+            res.sendStatus(200)
+        } catch (error) {
+            console.log('ERROR IN getCurrentUserPosts')
+            console.log(error)
+            res.sendStatus(400)
+        }
     },
 
     deletePost: (req, res) => {
