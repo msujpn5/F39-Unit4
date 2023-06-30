@@ -1,4 +1,5 @@
-import {NavLink} from 'react-router-dom'
+import {Link} from 'react-router-dom'
+import {React} from 'react'
 
 import logo from '../assets/dm-logo-white.svg'
 import { useContext } from 'react'
@@ -25,13 +26,13 @@ const Header = () => {
                     authCtx.token ? (
                         <ul className='main-nav'>
                             <li>
-                                <NavLink style={styleActiveLink} to='/'>Home</NavLink>
+                                <Link to='/'>Home</Link>
                             </li>
                             <li>
-                                <NavLink style={styleActiveLink} to='profile'>Profile</NavLink>
+                                <Link to='profile'>Profile</Link>
                             </li>
                             <li>
-                                <NavLink style={styleActiveLink} to='form'>Add Post</NavLink>
+                                <Link to='form'>Add Post</Link>
                             </li>
                             <li>
                                 <button className='logout-btn' onClick={() => authCtx.logout()}>Logout</button>
@@ -40,10 +41,10 @@ const Header = () => {
                     ) : (
                         <ul className='main-nav'>
                             <li>
-                                <NavLink style={styleActiveLink} to='/'>Home</NavLink>
+                                <Link to='/'>Home</Link>
                             </li>
                             <li>
-                                <NavLink style={styleActiveLink} to='/auth'>Login or Sign Up</NavLink>
+                                <Link to='/auth'>Login or Sign Up</Link>
                             </li>
                         </ul>
                     )

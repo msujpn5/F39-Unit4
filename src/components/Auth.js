@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import axios from 'axios';
 import AuthContext from '../store/authContext';
  
@@ -6,11 +6,15 @@ const Auth = () => {
    const [username, setUsername] = useState('')
    const [password, setPassword] = useState('')
    const [register, setRegister] = useState(true)
+   const [message, setMessage] = useState('')
+   const [display, setDisplay] = useState('none')
 
    const authCtx = useContext(AuthContext)
  
    const submitHandler = e => {
        e.preventDefault()
+
+       setDisplay('none')
 
        const url = 'https://socialmtn.devmountain.com'
 
@@ -26,9 +30,10 @@ const Auth = () => {
             authCtx.login(res.data.token, res.data.exp, res.data.userId)
         })
         .catch(err => {
-            console.log(err.response.data)
             setPassword("")
             setUsername("")
+            setMessage(err.response.data)
+            setDisplay('block')
         })
  
        console.log('submitHandler called')
@@ -46,6 +51,7 @@ const Auth = () => {
                    {register ? 'Sign Up' : 'Login'}
                </button>
            </form>
+           <p style={{display: display}} className='auth-msg'>{message}</p>
            <button className='form-btn'>Need to {register ? 'Login' : 'Sign Up'}?</button>
        </main>
    )

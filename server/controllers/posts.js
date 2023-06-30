@@ -22,6 +22,7 @@ module.exports = {
 
     getCurrentUserPosts: async (req, res) => {
         try {
+            const {userId} = req.params
             const posts = await Post.findAll({
                 where: {userId: userId},
                 include: [{
@@ -54,8 +55,7 @@ module.exports = {
         try {
             const {id} = req.params 
             const {status} = req.body 
-            await Post.update({privateStatus: status},
-                {where: {id: +id}
+            await Post.update({privateStatus: status}, {where: {id: +id}
             })
             res.sendStatus(200)
         } catch (error) {

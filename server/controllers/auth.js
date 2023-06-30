@@ -4,11 +4,23 @@ const bcrypt = require('bcryptjs')
 const {User} = require('../models/user')
 const {SECRET} = process.env
 
+function createToken (username, id) {
+    return jwt.sign(
+        {
+            username,
+            id
+        },
+        SECRET,
+        {
+            expiresIn: '2 days'
+        }
+    )
+}
 module.exports = {
     register: async (req, res) => {
         try {
             const {username, password} = req.body 
-            let foundUser = await User.findOne({where: {username: username}})
+            let foundUser = await User.findOne({where: {username}})
             if (foundUser) {
                 res.status(400).send('cannot create user')
             } else {
@@ -61,17 +73,4 @@ module.exports = {
             res.sendStatus(400)
         }
     }
-}
-
-function createToken (username, id) {
-    return jwt.sign(
-        {
-            username,
-            id
-        },
-        SECRET,
-        {
-            expiresIn: '2 days'
-        }
-    )
 }

@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import AuthContext from './store/authContext'
 import './App.css'
 
