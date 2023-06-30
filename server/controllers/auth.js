@@ -30,8 +30,34 @@ module.exports = {
         }
     },
 
-    login: (req, res) => {
-        console.log('login')
+    login: async (req, res) => {
+        try {
+            const {username, password} = req.body
+            let foundUser = await User.findOne({where: {username}})
+
+            if (foundUser) {
+                const isAuthenticated = bcrypt.compareSunc(password, foundUser.hashedPass)
+
+                if (isAuthenticated) {
+                    const token = createToken(foundUser.dataValues.username, foundUser.dataValues.id)
+                    const exp = Date.now() + 1000 * 60 * 60 * 48
+                    res.status(200).send({
+                        username: foundUser.dataValues.username,
+                        userId: foundUsser.dataValues.id,
+                        token,
+                        exp
+                    })
+                } else {
+                    res.status(400).send('not authenticated')
+                }
+            } else {
+                res.status(400).send('user not found')
+            }
+        } catch (error) {
+            console.log('ERROR IN register')
+            console.log(error)
+            res.sendStatus(400)
+        }
     }
 }
 
