@@ -1,6 +1,7 @@
-const { JsonWebTokenError } = require('jsonwebtoken')
-
 require('dotenv').config()
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const {User} = require('../models/user')
 const {SECRET} = process.env
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
                 const hash = bcrypt.hashSync(password, salt)
                 const newUser = await User.create({username, hashedPass: hash})
                 const token = createToken(newUser.dataValues.username, newUser.dataValues.id)
+                console.log('TOKEN:', token)
                 const exp = Date.now() + 1000 * 60 * 60 * 48
                 res.status(200).send({
                     username: newUser.dataValues.username,
@@ -36,14 +38,14 @@ module.exports = {
             let foundUser = await User.findOne({where: {username}})
 
             if (foundUser) {
-                const isAuthenticated = bcrypt.compareSunc(password, foundUser.hashedPass)
+                const isAuthenticated = bcrypt.compareSync(password, foundUser.hashedPass)
 
                 if (isAuthenticated) {
                     const token = createToken(foundUser.dataValues.username, foundUser.dataValues.id)
                     const exp = Date.now() + 1000 * 60 * 60 * 48
                     res.status(200).send({
                         username: foundUser.dataValues.username,
-                        userId: foundUsser.dataValues.id,
+                        userId: foundUser.dataValues.id,
                         token,
                         exp
                     })
