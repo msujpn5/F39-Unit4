@@ -12,7 +12,7 @@ module.exports = {
                     attributes: [`username`]
                 }]
             })
-            res.sendStatus(200).send(posts)
+            res.status(200).send(posts)
         } catch (error) {
             console.log('ERROR IN getAllPosts')
             console.log(error)
@@ -31,7 +31,7 @@ module.exports = {
                     attributes: [`username`]
                 }]
             })
-            res.sendStatus(200).send(posts)
+            res.status(200).send(posts)
         } catch (error) {
             console.log('ERROR IN getCurrentUserPosts')
             console.log(error)
@@ -45,7 +45,7 @@ module.exports = {
             await Post.create({title, content, privateStatus: status, userId})
             res.sendStatus(200)
         } catch (error) {
-            console.log('ERROR IN getCurrentUserPosts')
+            console.log('ERROR IN addPost')
             console.log(error)
             res.sendStatus(400)
         }
@@ -59,7 +59,7 @@ module.exports = {
             })
             res.sendStatus(200)
         } catch (error) {
-            console.log('ERROR IN getCurrentUserPosts')
+            console.log('ERROR IN editPost')
             console.log(error)
             res.sendStatus(400)
         }
@@ -71,7 +71,7 @@ module.exports = {
             await Post.destroy({where: {id: +id}})
             res.sendStatus(200)
         } catch (error) {
-            console.log('ERROR IN getCurrentUserPosts')
+            console.log('ERROR IN deletePost')
             console.log(error)
             res.sendStatus(400)
         }

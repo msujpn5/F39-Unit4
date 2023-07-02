@@ -30,8 +30,8 @@ const Auth = () => {
             authCtx.login(res.data.token, res.data.exp, res.data.userId)
         })
         .catch(err => {
-            setPassword("")
-            setUsername("")
+            setPassword('')
+            setUsername('')
             setMessage(err.response.data)
             setDisplay('block')
         })
@@ -52,7 +52,7 @@ const Auth = () => {
                </button>
            </form>
            <p style={{display: display}} className='auth-msg'>{message}</p>
-           <button className='form-btn'>Need to {register ? 'Login' : 'Sign Up'}?</button>
+           <button className='form-btn' onClick={() => setRegister(!register)}>Need to {register ? 'Login' : 'Sign Up'}?</button>
        </main>
    )
 }
