@@ -16,7 +16,7 @@ const Auth = () => {
 
        setDisplay('none')
 
-       const url = 'https://socialmtn.devmountain.com'
+       const url = 'http://localhost:4005'
 
        const body = {
         username,
